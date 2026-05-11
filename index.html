@@ -1,174 +1,419 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sejarah-Mu</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sejarah-MU | Kisah Seru, Ilmu Baru</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<!-- ================= NAVBAR ================= -->
-<header class="navbar">
-  <div class="container nav-container">
-    <h1 class="logo">Sejarah-Mu</h1>
+  <!-- ============================================================
+       NAVBAR
+       Navigasi utama, tetap di atas (sticky), ada hamburger di mobile
+  ============================================================ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <!-- Logo / Nama Produk -->
+      <a href="#hero" class="nav-logo">Sejarah<span>MU</span></a>
 
-    <!-- Menu Desktop -->
-    <nav class="nav-links" id="navLinks">
-      <a href="#hero">Beranda</a>
-      <a href="#masalah">Masalah</a>
-      <a href="#solusi">Solusi</a>
-      <a href="#fitur">Fitur</a>
-      <a href="#akses">Akses</a>
-      <a href="#tim">Tim</a>
-    </nav>
-
-    <!-- Hamburger -->
-    <div class="hamburger" id="hamburger">
-      ☰
-    </div>
-  </div>
-</header>
-
-<!-- ================= HERO ================= -->
-<section id="hero" class="hero container">
-  <div class="hero-text">
-    <h2>Sejarah MU: Kisah seru, Ilmu baru</h2>
-    <p>
-      Sejarahmu adalah aplikasi edukasi sejarah Muhammadiyah berbasis Android 
-      yang dirancang untuk siswa SD agar belajar lebih interaktif dan menyenangkan.
-    </p>
-    <a href="#akses" class="btn">Coba Sekarang</a>
-  </div>
-
-  <div class="hero-image">
-    <!-- Jika gambar kosong akan fallback -->
-    <img src="" alt="gambar utama" onerror="handleImageError(this)">
-  </div>
-</section>
-
-<!-- ================= MASALAH ================= -->
-<section id="masalah" class="section container">
-  <h2>Masalah</h2>
-  <p>GANTI: KALIMAT PEMBUKA MASALAH</p>
-
-  <div class="card-grid">
-    <div class="card">
-      <h3>Materi Kaku</h3>
-      <p>Penyajian sejarah terlalu berbasis teks dan sulit dipahami siswa.</p>
-    </div>
-
-    <div class="card">
-      <h3>Minim Interaktivitas</h3>
-      <p>Pembelajaran kurang menarik karena tidak ada gamifikasi.</p>
-    </div>
-
-    <div class="card">
-      <h3>Motivasi Rendah</h3>
-      <p>Siswa sulit belajar mandiri di luar kelas.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ================= SOLUSI ================= -->
-<section id="solusi" class="section container">
-  <h2>Sejarah MU: Solusi Digital Interaktif</h2>
-
-  <div class="two-col">
-    <div>
-      <p>
-        Aplikasi ini menghadirkan sejarah dalam bentuk cerita bergambar, animasi,
-        kuis, dan game edukatif agar pembelajaran lebih menyenangkan.
-      </p>
-
-      <ul>
-        <li>Pilih fitur pembelajaran</li>
-        <li>Belajar melalui cerita visual</li>
-        <li>Uji dengan kuis & game</li>
-        <li>Dengarkan narasi audio</li>
-        <li>Tanamkan nilai Muhammadiyah</li>
+      <!-- Menu navigasi desktop -->
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#hero"    class="nav-link">Beranda</a></li>
+        <li><a href="#masalah" class="nav-link">Masalah</a></li>
+        <li><a href="#solusi"  class="nav-link">Solusi</a></li>
+        <li><a href="#fitur"   class="nav-link">Fitur</a></li>
+        <li><a href="#akses"   class="nav-link">Akses</a></li>
+        <li><a href="#tim"     class="nav-link">Tim</a></li>
       </ul>
+
+      <!-- Hamburger button untuk mobile -->
+      <button class="hamburger" id="hamburger" aria-label="Buka menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO SECTION
+       2 kolom: kiri teks, kanan gambar. Mobile jadi 1 kolom.
+  ============================================================ -->
+  <section class="hero" id="hero">
+    <div class="container hero-grid">
+
+      <!-- Kolom kiri: teks -->
+      <div class="hero-text fade-in">
+        <span class="hero-badge">Aplikasi Edukasi Android</span>
+        <h1 class="hero-title">Sejarah<span class="accent">MU</span></h1>
+        <p class="hero-tagline">Kisah Seru, Ilmu Baru</p>
+        <p class="hero-desc">
+          Aplikasi edukasi sejarah Muhammadiyah berbasis Android yang dirancang khusus
+          untuk membantu siswa Sekolah Dasar mempelajari biografi tokoh pendiri dan
+          persebaran Amal Usaha Muhammadiyah secara interaktif.
+        </p>
+        <div class="hero-buttons">
+          <a href="#akses" class="btn btn-primary">Jelajahi Sekarang</a>
+          <a href="#fitur" class="btn btn-outline">Lihat Fitur</a>
+        </div>
+      </div>
+
+      <!-- Kolom kanan: gambar hero -->
+      <div class="hero-image fade-in fade-delay">
+        <!-- Ganti src dengan link gambar mockup kamu -->
+        <img
+          src=""
+          alt="gambar utama"
+          class="hero-img"
+          id="heroImg"
+          onerror="this.style.display='none'; document.getElementById('heroFallback').style.display='flex';"
+        />
+        <!-- Fallback jika gambar gagal atau kosong -->
+        <div class="img-fallback" id="heroFallback">
+          <span class="fallback-icon">📱</span>
+          <p>Mockup Aplikasi</p>
+        </div>
+      </div>
+
     </div>
 
-    <div>
-      <img src="https://i.ibb.co.com/xt6VPxQk/Gemini-Generated-Image-askntuaskntuaskn.png"
-           alt="GANTI: ALT_GAMBAR_SOLUSI"
-           onerror="handleImageError(this)">
+    <!-- Dekorasi latar belakang -->
+    <div class="hero-blob blob-1"></div>
+    <div class="hero-blob blob-2"></div>
+  </section>
+
+  <!-- ============================================================
+       SECTION MASALAH
+       Ditampilkan dalam 3 card
+  ============================================================ -->
+  <section class="section masalah" id="masalah">
+    <div class="container">
+
+      <div class="section-header fade-in">
+        <span class="section-badge">Latar Belakang</span>
+        <h2>Masih Minim Aplikasi Pembelajaran Muhammadiyah yang Interaktif, Khusus untuk Anak-Anak</h2>
+        <p class="section-desc">
+          Banyak siswa sekolah dasar kesulitan memahami sejarah Muhammadiyah karena media belajar yang tersedia belum sesuai dengan kebutuhan mereka.
+        </p>
+      </div>
+
+      <!-- 3 Card masalah -->
+      <div class="masalah-grid">
+
+        <div class="masalah-card fade-in">
+          <div class="masalah-icon">📖</div>
+          <h3>Materi Terlalu Kaku</h3>
+          <p>
+            Penyajian sejarah yang didominasi teks membuat siswa Sekolah Dasar
+            sulit memahami materi secara visual dan kognitif.
+          </p>
+        </div>
+
+        <div class="masalah-card fade-in fade-delay">
+          <div class="masalah-icon">🎮</div>
+          <h3>Minim Interaktivitas</h3>
+          <p>
+            Kurangnya fitur pendukung seperti storytelling dan gamifikasi yang
+            membuat pembelajaran sejarah terasa membosankan bagi siswa.
+          </p>
+        </div>
+
+        <div class="masalah-card fade-in fade-delay-2">
+          <div class="masalah-icon">🌱</div>
+          <h3>Rendahnya Motivasi Mandiri</h3>
+          <p>
+            Keterbatasan media belajar mandiri yang teruji membuat siswa sulit
+            mendalami materi di luar jam pelajaran secara efektif.
+          </p>
+        </div>
+
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ================= FITUR ================= -->
-<section id="fitur" class="section container">
-  <h2>Fitur Utama</h2>
+  <!-- ============================================================
+       SECTION SOLUSI / TENTANG PRODUK
+  ============================================================ -->
+  <section class="section solusi" id="solusi">
+    <div class="container">
 
-  <div class="card-grid">
-    <div class="card">
-      <h3>Narasi Interaktif</h3>
-      <p>Storytelling visual dan audio menarik.</p>
+      <div class="section-header fade-in">
+        <span class="section-badge">Tentang Produk</span>
+        <h2>Sejarah MU: Solusi Digital Interaktif untuk Mengenalkan Sejarah Muhammadiyah pada Anak</h2>
+      </div>
+
+      <div class="solusi-grid">
+
+        <!-- Kiri: gambar solusi -->
+        <div class="solusi-image fade-in">
+          <img
+            src="https://i.ibb.co.com/xt6VPxQk/Gemini-Generated-Image-askntuaskntuaskn.png"
+            alt="Ilustrasi Aplikasi SejarahMU"
+            class="solusi-img"
+            onerror="this.parentElement.innerHTML='<div class=\'img-fallback\'><span class=\'fallback-icon\'>🖼️</span><p>Gambar Solusi</p></div>'"
+          />
+        </div>
+
+        <!-- Kanan: penjelasan -->
+        <div class="solusi-text fade-in fade-delay">
+          <p class="solusi-desc">
+            Aplikasi ini menghadirkan sejarah Muhammadiyah dalam bentuk cerita bergambar,
+            animasi, kuis, dan permainan edukatif sehingga anak-anak bisa belajar dengan
+            cara seru, mudah, dan menyenangkan, sekaligus menanamkan nilai-nilai
+            Muhammadiyah sejak dini.
+          </p>
+
+          <!-- Cara kerja -->
+          <h3 class="solusi-subtitle">Cara Kerja Aplikasi</h3>
+          <ol class="cara-kerja">
+            <li>Pilih fitur (cerita, timeline, kuis, game).</li>
+            <li>Belajar lewat cerita bergambar/animasi.</li>
+            <li>Uji pemahaman dengan kuis &amp; game.</li>
+            <li>Dengar narasi audio untuk memudahkan.</li>
+            <li>Tanamkan nilai Muhammadiyah di setiap cerita.</li>
+          </ol>
+
+          <!-- Manfaat -->
+          <h3 class="solusi-subtitle">Manfaat Penelitian</h3>
+          <div class="manfaat-list">
+            <div class="manfaat-item">
+              <span class="manfaat-dot"></span>
+              <p>Merancang dan mengembangkan aplikasi sejarah Muhammadiyah berbasis Android yang mencakup materi biografi pendiri dan sejarah amal usaha sesuai kurikulum Kemuhammadiyahan tingkat SD.</p>
+            </div>
+            <div class="manfaat-item">
+              <span class="manfaat-dot"></span>
+              <p>Mengimplementasikan fitur interaktif seperti Digital Storytelling, peta visual amal usaha (GIS sederhana), dan sistem gamifikasi untuk meningkatkan daya tarik materi sejarah bagi siswa.</p>
+            </div>
+            <div class="manfaat-item">
+              <span class="manfaat-dot"></span>
+              <p>Melakukan uji usabilitas kepada minimal 30 siswa SD Muhammadiyah untuk menganalisis tingkat kemudahan penggunaan dan efektivitasnya dalam meningkatkan pemahaman materi sejarah.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </section>
 
-    <div class="card">
-      <h3>Peta Amal Usaha</h3>
-      <p>Visualisasi persebaran AUM.</p>
+  <!-- ============================================================
+       SECTION FITUR UTAMA
+       Grid card fitur
+  ============================================================ -->
+  <section class="section fitur" id="fitur">
+    <div class="container">
+
+      <div class="section-header fade-in">
+        <span class="section-badge">Keunggulan</span>
+        <h2>Fitur Utama</h2>
+        <p class="section-desc">
+          Produk ini dirancang untuk membantu proses pembelajaran menjadi lebih mudah,
+          interaktif, menarik, dan menyenangkan.
+        </p>
+      </div>
+
+      <div class="fitur-grid">
+
+        <div class="fitur-card fade-in">
+          <div class="fitur-icon">🎙️</div>
+          <h3>Narasi Interaktif</h3>
+          <p>
+            Menyajikan kisah inspiratif tokoh Muhammadiyah melalui ilustrasi visual
+            dan audio storytelling yang menarik bagi siswa.
+          </p>
+        </div>
+
+        <div class="fitur-card fade-in fade-delay">
+          <div class="fitur-icon">🗺️</div>
+          <h3>Peta Amal Usaha</h3>
+          <p>
+            Visualisasi peta interaktif untuk mengenal persebaran sekolah, rumah sakit,
+            dan panti asuhan Muhammadiyah secara nyata.
+          </p>
+        </div>
+
+        <div class="fitur-card fade-in fade-delay-2">
+          <div class="fitur-icon">🏆</div>
+          <h3>Gamifikasi Seru</h3>
+          <p>
+            Dilengkapi Kuis Jelajah Sejarah dan sistem poin untuk mendapatkan lencana
+            khusus guna meningkatkan semangat belajar.
+          </p>
+        </div>
+
+        <div class="fitur-card fade-in fade-delay">
+          <div class="fitur-icon">📊</div>
+          <h3>Jejak Belajar</h3>
+          <p>
+            Fitur pemantau progres yang memudahkan siswa melihat riwayat materi dan
+            koleksi lencana yang telah berhasil didapatkan.
+          </p>
+        </div>
+
+      </div>
     </div>
+  </section>
 
-    <div class="card">
-      <h3>Gamifikasi</h3>
-      <p>Kuis dan sistem poin.</p>
+  <!-- ============================================================
+       SECTION AKSES PRODUK / DEMO
+  ============================================================ -->
+  <section class="section akses" id="akses">
+    <div class="container">
+
+      <div class="akses-wrapper fade-in">
+        <span class="section-badge">Mulai Belajar</span>
+        <h2>Sejarah MU</h2>
+        <p class="akses-desc">
+          Jelajahi perjalanan satu abad lebih gerakan Muhammadiyah dalam mencerahkan semesta.
+          Melalui menu ini, Anda dapat mengakses materi interaktif, dokumentasi sejarah, hingga
+          simulasi peran tokoh dalam membangun pilar pendidikan dan kesehatan di Indonesia.
+          Klik tombol di bawah untuk memulai pengalaman belajar yang inspiratif!
+        </p>
+
+        <!-- Tombol akses -->
+        <div class="akses-buttons">
+          <a href="belajar.html" class="btn btn-primary btn-large">
+            📚 Halaman Pembelajaran
+          </a>
+        </div>
+
+        <!-- Embed Canva -->
+        <div class="canva-wrapper">
+          <div class="canva-embed">
+            <iframe
+              loading="lazy"
+              src="https://www.canva.com/design/DAHHThAkjEs/hpQPv305KjRicacUJLhz3w/view?embed"
+              allowfullscreen="allowfullscreen"
+              allow="fullscreen"
+              title="Sejarah Muhammadiyah - Presentasi Canva"
+            ></iframe>
+          </div>
+          <p class="canva-caption">
+            <a
+              href="https://www.canva.com/design/DAHHThAkjEs/hpQPv305KjRicacUJLhz3w/view"
+              target="_blank"
+              rel="noopener"
+            >
+              Sejarah Muhammadiyah: Perjalanan Modern Islam Indonesia
+            </a>
+            — oleh Tiara Ramadina
+          </p>
+        </div>
+
+      </div>
     </div>
+  </section>
 
-    <div class="card">
-      <h3>Jejak Belajar</h3>
-      <p>Pantau progres belajar siswa.</p>
+  <!-- ============================================================
+       SECTION TIM
+       Card anggota dengan foto bulat
+  ============================================================ -->
+  <section class="section tim" id="tim">
+    <div class="container">
+
+      <div class="section-header fade-in">
+        <span class="section-badge">Tentang Kami</span>
+        <h2>PENTACODE</h2>
+        <p class="section-desc">
+          Pentacode adalah simbol lima kekuatan pemikiran yang bersatu membuat pembaharuan
+          Pendidikan Islam. "Penta" berasal dari bahasa Yunani yang berarti lima,
+          "Code" berarti kode, simbol, atau sistem makna.
+        </p>
+      </div>
+
+      <div class="tim-grid">
+
+        <!-- Anggota 1 -->
+        <div class="tim-card fade-in">
+          <div class="tim-foto-wrap">
+            <img
+              src="https://i.ibb.co.com/Mk1wMWM7/Whats-App-Image-2026-04-20-at-08-05-30.jpg"
+              alt="foto seftin"
+              class="tim-foto"
+              onerror="this.src=''; this.alt='SF'; this.classList.add('img-error');"
+            />
+          </div>
+          <h3>Seftin Nafila</h3>
+          <p class="tim-peran">Leader &amp; Kodular Developer</p>
+        </div>
+
+        <!-- Anggota 2 -->
+        <div class="tim-card fade-in fade-delay">
+          <div class="tim-foto-wrap">
+            <img
+              src="https://i.ibb.co.com/SwR0RG39/Whats-App-Image-2026-04-20-at-07-47-15.jpg"
+              alt="foto tiara"
+              class="tim-foto"
+              onerror="this.src=''; this.alt='TR'; this.classList.add('img-error');"
+            />
+          </div>
+          <h3>Tiara Ramadina</h3>
+          <p class="tim-peran">Canva Content Designer</p>
+        </div>
+
+        <!-- Anggota 3 -->
+        <div class="tim-card fade-in fade-delay-2">
+          <div class="tim-foto-wrap">
+            <img
+              src="https://i.ibb.co.com/xqP0GBWL/IMG-20251010-WA0011-1-jpg.jpg"
+              alt="foto ainun"
+              class="tim-foto"
+              onerror="this.src=''; this.alt='AN'; this.classList.add('img-error');"
+            />
+          </div>
+          <h3>Ainun Nadhifa</h3>
+          <p class="tim-peran">Creative Media Producer</p>
+        </div>
+
+        <!-- Anggota 4 -->
+        <div class="tim-card fade-in">
+          <div class="tim-foto-wrap">
+            <img
+              src="https://i.ibb.co.com/Wvn3cwrK/Whats-App-Image-2026-04-27-at-22-39-44.jpg"
+              alt="foto maulida"
+              class="tim-foto"
+              onerror="this.src=''; this.alt='MA'; this.classList.add('img-error');"
+            />
+          </div>
+          <h3>Maulida Azzahra</h3>
+          <p class="tim-peran">Assessment &amp; Linktree</p>
+        </div>
+
+        <!-- Anggota 5 -->
+        <div class="tim-card fade-in fade-delay">
+          <div class="tim-foto-wrap">
+            <img
+              src="https://i.ibb.co.com/SDtgwPKf/Whats-App-Image-2026-04-20-at-07-45-45.jpg"
+              alt="foto fawwaz"
+              class="tim-foto"
+              onerror="this.src=''; this.alt='MF'; this.classList.add('img-error');"
+            />
+          </div>
+          <h3>Mas'adil Fawwaz</h3>
+          <p class="tim-peran">Visual Identity &amp; Asset</p>
+        </div>
+
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ================= AKSES ================= -->
-<section id="akses" class="section highlight">
-  <div class="container center">
-    <h2>Sejarah MU</h2>
-    <p>
-      Jelajahi sejarah Muhammadiyah secara interaktif.
-    </p>
-
-    <a href="belajar.html" class="btn">Halaman Pembelajaran</a>
-  </div>
-</section>
-
-<!-- ================= TIM ================= -->
-<section id="tim" class="section container">
-  <h2>PENTACODE</h2>
-
-  <div class="card-grid">
-
-    <div class="card team">
-      <img src="https://i.ibb.co.com/Mk1wMWM7/Whats-App-Image-2026-04-20-at-08-05-30.jpg" alt="foto seftin">
-      <h3>SEFTIN NAFILA</h3>
-      <p>Leader & Kodular Developer</p>
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">Sejarah<span>MU</span></span>
+        <p>Kisah Seru, Ilmu Baru</p>
+      </div>
+      <div class="footer-info">
+        <p>Kelompok <strong>PENTACODE</strong></p>
+        <p>Kelas A &mdash; Pendidikan Agama Islam</p>
+        <p>&copy; 2026 SejarahMU. Semua hak dilindungi.</p>
+      </div>
     </div>
+  </footer>
 
-    <div class="card team">
-      <img src="https://i.ibb.co.com/SwR0RG39/Whats-App-Image-2026-04-20-at-07-47-15.jpg" alt="foto tiara">
-      <h3>TIARA RAMADINA</h3>
-      <p>Canva Content Designer</p>
-    </div>
-
-    <div class="card team">
-      <img src="https://i.ibb.co.com/xqP0GBWL/IMG-20251010-WA0011-1-jpg.jpg" alt="foto ainun">
-      <h3>AINUN NADHIFA</h3>
-      <p>Creative Media Producer</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
-  <p>PENTACODE | Pendidikan Agama Islam | 2026</p>
-</footer>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

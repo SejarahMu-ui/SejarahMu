@@ -1,54 +1,684 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Sejarah Muhammadiyah</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sejarah Muhammadiyah: Solusi untuk Bangsa | SejarahMU</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ============================================================
+       Gaya khusus halaman belajar.html
+       (Tambahan dari style.css utama)
+    ============================================================ */
+
+    /* Reset body untuk halaman belajar */
+    body {
+      padding-top: 68px;   /* kompensasi navbar fixed */
+    }
+
+    /* Header halaman pembelajaran */
+    .belajar-header {
+      background: linear-gradient(135deg, var(--color-primary), #145e2e);
+      color: var(--color-white);
+      padding: 56px 0 40px;
+      text-align: center;
+    }
+    .belajar-header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+    .belajar-header p {
+      max-width: 680px;
+      margin: 0 auto;
+      opacity: 0.88;
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    /* Layout utama: sidebar + konten */
+    .belajar-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 0;
+      min-height: calc(100vh - 68px - 180px);
+      max-width: var(--max-width);
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    /* ---- SIDEBAR ---- */
+    .sidebar {
+      background: var(--color-card-bg);
+      border-radius: var(--radius) 0 0 var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 0;
+      position: sticky;
+      top: 88px;           /* di bawah navbar */
+      height: fit-content;
+    }
+
+    .sidebar-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      padding: 0 24px 12px;
+      border-bottom: 1px solid var(--color-section-alt);
+      margin-bottom: 8px;
+    }
+
+    /* Daftar bab */
+    .bab-list {
+      padding: 0;
+      list-style: none;
+    }
+
+    .bab-item > button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 12px 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--color-text);
+      text-align: left;
+      transition: background var(--transition), color var(--transition);
+    }
+    .bab-item > button:hover {
+      background: var(--color-section-alt);
+      color: var(--color-primary);
+    }
+    .bab-item > button.active-bab {
+      background: var(--color-section-alt);
+      color: var(--color-primary);
+    }
+
+    /* Ikon panah chevron */
+    .bab-item > button .chevron {
+      font-size: 0.7rem;
+      transition: transform 0.3s ease;
+    }
+    .bab-item > button.open .chevron {
+      transform: rotate(90deg);
+    }
+
+    /* Daftar subbab (tersembunyi default) */
+    .subbab-list {
+      display: none;
+      list-style: none;
+      padding: 0;
+    }
+    .subbab-list.open {
+      display: block;
+    }
+    .subbab-list li a {
+      display: block;
+      padding: 9px 24px 9px 40px;
+      font-size: 0.87rem;
+      color: var(--color-text-muted);
+      transition: background var(--transition), color var(--transition);
+      border-left: 3px solid transparent;
+    }
+    .subbab-list li a:hover,
+    .subbab-list li a.active-subbab {
+      background: #e8f5e9;
+      color: var(--color-primary);
+      border-left-color: var(--color-primary);
+    }
+
+    /* ---- AREA KONTEN UTAMA ---- */
+    .konten-area {
+      background: var(--color-card-bg);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      box-shadow: var(--shadow);
+      padding: 40px 48px;
+      border-left: 1px solid var(--color-section-alt);
+    }
+
+    /* Breadcrumb navigasi */
+    .breadcrumb {
+      font-size: 0.83rem;
+      color: var(--color-text-muted);
+      margin-bottom: 24px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .breadcrumb span {
+      color: var(--color-primary);
+      font-weight: 600;
+    }
+
+    /* Judul konten */
+    .konten-judul {
+      font-size: 1.7rem;
+      font-weight: 800;
+      color: var(--color-primary);
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--color-section-alt);
+    }
+
+    /* Teks paragraf */
+    .konten-teks {
+      color: var(--color-text-muted);
+      font-size: 0.97rem;
+      line-height: 1.85;
+      margin-bottom: 28px;
+    }
+
+    /* Gambar konten */
+    .konten-gambar {
+      width: 100%;
+      border-radius: var(--radius);
+      object-fit: cover;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow);
+      max-height: 360px;
+    }
+
+    /* Wrapper iframe/embed */
+    .konten-embed {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-top: 56.25%;  /* rasio 16:9 */
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 20px;
+      background: var(--color-section-alt);
+    }
+    .konten-embed iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Card kuis & game */
+    .aksi-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .aksi-card {
+      background: var(--color-section-alt);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      text-align: center;
+      border: 2px solid transparent;
+      transition: all var(--transition);
+    }
+    .aksi-card:hover {
+      border-color: var(--color-primary);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow);
+    }
+    .aksi-card .aksi-icon { font-size: 2rem; margin-bottom: 8px; }
+    .aksi-card h4 { font-size: 0.95rem; font-weight: 700; color: var(--color-primary); margin-bottom: 4px; }
+    .aksi-card p  { font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 12px; }
+
+    /* Label "Materi" / "Interaktif" */
+    .konten-label {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--color-accent);
+      color: var(--color-primary);
+      padding: 3px 12px;
+      border-radius: 50px;
+      margin-bottom: 16px;
+    }
+
+    /* Navigasi bab (tombol prev/next) */
+    .konten-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--color-section-alt);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    /* Tombol sidebar mobile (tersembunyi di desktop) */
+    .sidebar-toggle {
+      display: none;
+      width: 100%;
+      padding: 12px 24px;
+      background: var(--color-primary);
+      color: var(--color-white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 900px) {
+      .belajar-layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .sidebar {
+        position: static;
+        border-radius: var(--radius);
+        display: none;
+      }
+      .sidebar.sidebar-open {
+        display: block;
+      }
+
+      .sidebar-toggle {
+        display: block;
+      }
+
+      .konten-area {
+        border-radius: var(--radius);
+        border-left: none;
+        padding: 28px 20px;
+      }
+
+      .aksi-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<header class="navbar">
-  <div class="container">
-    <h2>Sejarah Muhammadiyah: Solusi untuk Bangsa</h2>
+  <!-- ============================================================
+       NAVBAR (sama dengan halaman utama)
+  ============================================================ -->
+  <nav class="navbar scrolled" id="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-logo">Sejarah<span>MU</span></a>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link">← Beranda</a></li>
+        <li><a href="#bab1"      class="nav-link">Bab 1</a></li>
+        <li><a href="#bab2"      class="nav-link">Bab 2</a></li>
+        <li><a href="#bab3"      class="nav-link">Bab 3</a></li>
+        <li><a href="#bab4"      class="nav-link">Bab 4</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Buka menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HEADER HALAMAN PEMBELAJARAN
+  ============================================================ -->
+  <header class="belajar-header">
+    <div class="container">
+      <div class="section-badge" style="margin-bottom:16px;">Halaman Pembelajaran</div>
+      <h1>Sejarah Muhammadiyah: Solusi untuk Bangsa</h1>
+      <p>
+        Pelajari bagaimana Muhammadiyah hadir sebagai gerakan Islam yang membawa solusi nyata
+        bagi masyarakat Indonesia. Temukan sejarah dan peran aktif Muhammadiyah dalam menjawab
+        tantangan bangsa, mulai dari memberantas kebodohan melalui pendidikan, hingga meningkatkan
+        kualitas kesehatan dan kesejahteraan sosial masyarakat.
+      </p>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       LAYOUT UTAMA: SIDEBAR + KONTEN
+  ============================================================ -->
+  <div class="belajar-layout container">
+
+    <!-- Tombol toggle sidebar untuk mobile -->
+    <button class="sidebar-toggle" id="sidebarToggle">☰ Daftar Materi</button>
+
+    <!-- ==================================================
+         SIDEBAR — Daftar Bab & Subbab
+    ================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-title">Daftar Materi</div>
+
+      <ul class="bab-list">
+
+        <!-- BAB 1 -->
+        <li class="bab-item" id="bab1">
+          <button class="bab-toggle active-bab open" onclick="toggleBab(this)">
+            Bab 1: Sejarah Muhammadiyah
+            <span class="chevron">▶</span>
+          </button>
+          <ul class="subbab-list open">
+            <li><a href="#" onclick="tampilKonten('1-1'); return false;" class="active-subbab">1.1 Latar Belakang Berdiri</a></li>
+            <li><a href="#" onclick="tampilKonten('1-2'); return false;">1.2 Arti Muhammadiyah</a></li>
+            <li><a href="#" onclick="tampilKonten('1-3'); return false;">1.3 Tujuan Muhammadiyah</a></li>
+          </ul>
+        </li>
+
+        <!-- BAB 2 -->
+        <li class="bab-item" id="bab2">
+          <button class="bab-toggle" onclick="toggleBab(this)">
+            Bab 2: Lambang Muhammadiyah
+            <span class="chevron">▶</span>
+          </button>
+          <ul class="subbab-list">
+            <li><a href="#" onclick="tampilKonten('2-1'); return false;">2.1 Matahari</a></li>
+            <li><a href="#" onclick="tampilKonten('2-2'); return false;">2.2 12 Sinar Putih</a></li>
+            <li><a href="#" onclick="tampilKonten('2-3'); return false;">2.3 Tulisan Arab Muhammadiyah</a></li>
+            <li><a href="#" onclick="tampilKonten('2-4'); return false;">2.4 Dua Kalimat Syahadat</a></li>
+            <li><a href="#" onclick="tampilKonten('2-5'); return false;">2.5 Warna Hijau &amp; Putih</a></li>
+          </ul>
+        </li>
+
+        <!-- BAB 3 -->
+        <li class="bab-item" id="bab3">
+          <button class="bab-toggle" onclick="toggleBab(this)">
+            Bab 3: Organisasi Muhammadiyah
+            <span class="chevron">▶</span>
+          </button>
+          <ul class="subbab-list">
+            <li><a href="#" onclick="tampilKonten('3-1'); return false;">3.1 Hizbul Wathan (HW)</a></li>
+            <li><a href="#" onclick="tampilKonten('3-2'); return false;">3.2 Tapak Suci</a></li>
+          </ul>
+        </li>
+
+        <!-- BAB 4 -->
+        <li class="bab-item" id="bab4">
+          <button class="bab-toggle" onclick="toggleBab(this)">
+            Bab 4: Pahlawan Muhammadiyah
+            <span class="chevron">▶</span>
+          </button>
+          <ul class="subbab-list">
+            <li><a href="#" onclick="tampilKonten('4-1'); return false;">4.1 K.H. Ahmad Dahlan</a></li>
+            <li><a href="#" onclick="tampilKonten('4-2'); return false;">4.2 Nyai Ahmad Dahlan</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </aside>
+
+    <!-- ==================================================
+         AREA KONTEN UTAMA
+         Isi materi ditampilkan di sini lewat JavaScript
+    ================================================== -->
+    <main class="konten-area" id="kontenArea">
+
+      <!-- Breadcrumb -->
+      <div class="breadcrumb">
+        Beranda &rsaquo; <span id="breadcrumbBab">Bab 1</span> &rsaquo; <span id="breadcrumbSubbab">Latar Belakang</span>
+      </div>
+
+      <!-- Label -->
+      <div class="konten-label" id="kontenLabel">Materi</div>
+
+      <!-- Judul konten -->
+      <h2 class="konten-judul" id="kontenJudul">Latar Belakang Berdirinya Muhammadiyah</h2>
+
+      <!-- Gambar utama konten -->
+      <img
+        src="https://i.ibb.co.com/hJt7NH4F/images.webp"
+        alt="Ilustrasi K.H. Ahmad Dahlan dan transformasi gerakan Muhammadiyah dalam pendidikan, kesehatan, dan sosial."
+        class="konten-gambar"
+        id="kontenGambar"
+        onerror="this.style.display='none'"
+      />
+
+      <!-- Teks materi -->
+      <div class="konten-teks" id="kontenTeks">
+        <p>
+          Muhammadiyah didirikan oleh K.H. Ahmad Dahlan pada 18 November 1912 di Kauman, Yogyakarta.
+          Sebagai gerakan Islam modernis, tujuannya adalah untuk memurnikan ajaran Islam dari bid'ah,
+          takhayul, dan mistik serta meningkatkan pendidikan dan kesejahteraan sosial.
+        </p>
+        <p>
+          Melalui sejarah singkat Muhammadiyah, organisasi ini berkembang pesat menjadi salah satu
+          organisasi Islam terbesar di Indonesia, dengan jutaan anggota dan ribuan amal usaha di
+          bidang pendidikan, kesehatan, dan sosial.
+        </p>
+      </div>
+
+      <!-- Area Game Interaktif -->
+      <div class="konten-label">Game Interaktif</div>
+      <div class="konten-embed" id="kontenEmbed">
+        <!-- Ganti src dengan link embed game atau video yang sesuai -->
+        <iframe
+          src="https://gemini.google.com/share/57fc1efc8ed1"
+          title="Game Interaktif Sejarah Muhammadiyah"
+          allowfullscreen
+          id="iframeEmbed"
+        ></iframe>
+      </div>
+
+      <!-- Card Kuis & Game -->
+      <div class="aksi-cards">
+        <div class="aksi-card" id="cardGame">
+          <div class="aksi-icon">🎮</div>
+          <h4>Main Game</h4>
+          <p>Uji pengetahuanmu lewat game seru!</p>
+          <a class="btn btn-primary" id="linkGame" href="https://gemini.google.com/share/57fc1efc8ed1" target="_blank" rel="noopener">
+            Mulai Game
+          </a>
+        </div>
+        <div class="aksi-card" id="cardKuis">
+          <div class="aksi-icon">📝</div>
+          <h4>Ikuti Kuis</h4>
+          <p>Jawab soal dan dapatkan lencana!</p>
+          <a class="btn btn-outline" id="linkKuis" href="https://forms.gle/HmEDWujGZS2pMrGy7" target="_blank" rel="noopener">
+            Kerjakan Kuis
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigasi Bab -->
+      <div class="konten-nav">
+        <button class="btn btn-outline" onclick="navigasiBab('prev')">← Sebelumnya</button>
+        <button class="btn btn-primary" onclick="navigasiBab('next')">Selanjutnya →</button>
+      </div>
+
+    </main>
   </div>
-</header>
 
-<div class="container" style="display:flex; gap:20px;">
+  <!-- ============================================================
+       SCRIPT JAVASCRIPT khusus belajar.html
+  ============================================================ -->
+  <script src="script.js"></script>
+  <script>
+    // ============================================================
+    // DATA KONTEN — Tambahkan atau edit materi di sini
+    // Setiap key adalah kode subbab (contoh: '1-1' = Bab 1, Subbab 1)
+    // ============================================================
+    var dataKonten = {
+      '1-1': {
+        bab:     'Bab 1: Sejarah Muhammadiyah',
+        subbab:  'Latar Belakang Berdiri',
+        judul:   'Latar Belakang Berdirinya Muhammadiyah',
+        teks:    'Muhammadiyah didirikan oleh K.H. Ahmad Dahlan pada 18 November 1912 di Kauman, Yogyakarta. Sebagai gerakan Islam modernis, tujuannya adalah untuk memurnikan ajaran Islam dari bid\'ah, takhayul, dan mistik serta meningkatkan pendidikan dan kesejahteraan sosial. Melalui sejarah singkat Muhammadiyah, organisasi ini berkembang pesat menjadi salah satu organisasi Islam terbesar di Indonesia.',
+        game:    'https://gemini.google.com/share/57fc1efc8ed1',
+        kuis:    'https://forms.gle/HmEDWujGZS2pMrGy7'
+      },
+      '1-2': {
+        bab:     'Bab 1: Sejarah Muhammadiyah',
+        subbab:  'Arti Muhammadiyah',
+        judul:   'Arti Nama Muhammadiyah',
+        teks:    'Muhammadiyah berasal dari bahasa Arab. "Muhammad" berarti Nabi Muhammad SAW, dan "-iyah" adalah akhiran yang berarti pengikut atau golongan. Sehingga Muhammadiyah artinya adalah golongan atau pengikut Nabi Muhammad SAW — yaitu orang-orang yang meneladani nilai dan ajaran beliau dalam kehidupan sehari-hari.',
+        game:    'https://gemini.google.com/share/57fc1efc8ed1',
+        kuis:    'https://forms.gle/HmEDWujGZS2pMrGy7'
+      },
+      '1-3': {
+        bab:     'Bab 1: Sejarah Muhammadiyah',
+        subbab:  'Tujuan Muhammadiyah',
+        judul:   'Tujuan Muhammadiyah',
+        teks:    'Tujuan utama Muhammadiyah adalah menegakkan dan menjunjung tinggi agama Islam sehingga terwujud masyarakat Islam yang sebenar-benarnya. Muhammadiyah bergerak dalam bidang pendidikan, sosial, kesehatan, dan dakwah untuk mewujudkan cita-cita tersebut di seluruh Indonesia.',
+        game:    'https://gemini.google.com/share/57fc1efc8ed1',
+        kuis:    'https://forms.gle/HmEDWujGZS2pMrGy7'
+      },
+      '2-1': {
+        bab:     'Bab 2: Lambang Muhammadiyah',
+        subbab:  'Matahari',
+        judul:   'Matahari dalam Lambang Muhammadiyah',
+        teks:    'Matahari dalam lambang Muhammadiyah melambangkan penerangan atau cahaya. Muhammadiyah hadir untuk menerangi masyarakat dengan cahaya Islam yang murni, sebagaimana matahari menerangi bumi. Matahari juga melambangkan semangat yang tidak pernah padam dalam berdakwah.',
+        game:    'https://gemini.google.com/share/cfcc01bce41f',
+        kuis:    'https://forms.gle/ih2H8bf2sRNTnM8z9'
+      },
+      '2-2': {
+        bab:     'Bab 2: Lambang Muhammadiyah',
+        subbab:  '12 Sinar Putih',
+        judul:   '12 Sinar Putih pada Lambang',
+        teks:    'Dua belas sinar putih yang memancar dari matahari melambangkan dua belas bulan dalam setahun. Ini menandakan bahwa Muhammadiyah berjuang sepanjang tahun tanpa henti untuk menegakkan nilai-nilai Islam.',
+        game:    'https://gemini.google.com/share/cfcc01bce41f',
+        kuis:    'https://forms.gle/ih2H8bf2sRNTnM8z9'
+      },
+      '2-3': {
+        bab:     'Bab 2: Lambang Muhammadiyah',
+        subbab:  'Tulisan Arab Muhammadiyah',
+        judul:   'Tulisan Arab Muhammadiyah',
+        teks:    'Di bagian tengah lambang terdapat tulisan Arab "Muhammadiyah" yang menunjukkan identitas organisasi. Tulisan ini menegaskan bahwa organisasi ini adalah pengikut ajaran Nabi Muhammad SAW yang berlandaskan Al-Qur\'an dan As-Sunnah.',
+        game:    'https://gemini.google.com/share/cfcc01bce41f',
+        kuis:    'https://forms.gle/ih2H8bf2sRNTnM8z9'
+      },
+      '2-4': {
+        bab:     'Bab 2: Lambang Muhammadiyah',
+        subbab:  'Dua Kalimat Syahadat',
+        judul:   'Dua Kalimat Syahadat',
+        teks:    'Lingkaran dua kalimat syahadat mengelilingi lambang menandakan bahwa dasar perjuangan Muhammadiyah adalah tauhid — keyakinan bahwa tidak ada Tuhan selain Allah dan Muhammad adalah utusan-Nya. Ini adalah pondasi seluruh kegiatan organisasi.',
+        game:    'https://gemini.google.com/share/cfcc01bce41f',
+        kuis:    'https://forms.gle/ih2H8bf2sRNTnM8z9'
+      },
+      '2-5': {
+        bab:     'Bab 2: Lambang Muhammadiyah',
+        subbab:  'Warna Hijau & Putih',
+        judul:   'Makna Warna Hijau dan Putih',
+        teks:    'Warna hijau pada latar lambang melambangkan kemakmuran, kesuburan, dan kedamaian Islam. Warna putih pada tulisan dan sinar melambangkan kesucian dan kebersihan hati dalam menjalankan ajaran agama.',
+        game:    'https://gemini.google.com/share/cfcc01bce41f',
+        kuis:    'https://forms.gle/ih2H8bf2sRNTnM8z9'
+      },
+      '3-1': {
+        bab:     'Bab 3: Organisasi Muhammadiyah',
+        subbab:  'Hizbul Wathan (HW)',
+        judul:   'Hizbul Wathan (HW)',
+        teks:    'Hizbul Wathan (HW) adalah organisasi kepanduan Muhammadiyah yang didirikan sejak awal berdirinya Muhammadiyah. HW bergerak dalam pendidikan kepanduan untuk membentuk karakter Islami pada generasi muda, dengan kegiatan seperti latihan kepemimpinan, kemah, dan pengabdian masyarakat.',
+        game:    'https://gemini.google.com/share/04aea8da34fa',
+        kuis:    'https://forms.gle/hSVfe6tLDoyjQkTw9'
+      },
+      '3-2': {
+        bab:     'Bab 3: Organisasi Muhammadiyah',
+        subbab:  'Tapak Suci',
+        judul:   'Tapak Suci',
+        teks:    'Tapak Suci adalah perguruan seni bela diri Muhammadiyah yang didirikan pada tahun 1963 di Yogyakarta. Selain mengajarkan ilmu bela diri, Tapak Suci menanamkan nilai-nilai Islam dan akhlak mulia kepada para anggotanya, serta menjadi wadah pengembangan potensi generasi muda Muhammadiyah.',
+        game:    'https://gemini.google.com/share/04aea8da34fa',
+        kuis:    'https://forms.gle/hSVfe6tLDoyjQkTw9'
+      },
+      '4-1': {
+        bab:     'Bab 4: Pahlawan Muhammadiyah',
+        subbab:  'K.H. Ahmad Dahlan',
+        judul:   'K.H. Ahmad Dahlan — Pendiri Muhammadiyah',
+        teks:    'K.H. Ahmad Dahlan adalah pendiri Muhammadiyah yang lahir di Kauman, Yogyakarta. Beliau dianugerahi gelar Pahlawan Nasional pada tahun 1961 (SK Presiden No. 657/1961). Beliau adalah pelopor pembaruan Islam di Indonesia, berfokus pada pendidikan, sosial, dan memurnikan ajaran Islam dari bid\'ah dan takhayul.',
+        game:    'https://gemini.google.com/share/b22ee6e54444',
+        kuis:    'https://forms.gle/5i3a6Xoa52G7dfgq5'
+      },
+      '4-2': {
+        bab:     'Bab 4: Pahlawan Muhammadiyah',
+        subbab:  'Nyai Ahmad Dahlan',
+        judul:   'Nyai Ahmad Dahlan — Pejuang Perempuan Muhammadiyah',
+        teks:    'Nyai Hj. Siti Walidah, dikenal sebagai Nyai Ahmad Dahlan, adalah pendiri organisasi perempuan Muhammadiyah (Aisyiyah). Beliau memiliki peran besar dalam pendidikan perempuan dan perjuangan kemerdekaan Indonesia, serta menjadi teladan semangat pemberdayaan perempuan Muslimah di Indonesia.',
+        game:    'https://gemini.google.com/share/b22ee6e54444',
+        kuis:    'https://forms.gle/5i3a6Xoa52G7dfgq5'
+      }
+    };
 
-  <!-- SIDEBAR -->
-  <aside style="width:250px;">
-    <h3>Daftar Bab</h3>
-    <ul>
-      <li>Bab 1: Sejarah Muhammadiyah</li>
-      <li>Bab 2: Lambang Muhammadiyah</li>
-      <li>Bab 3: Organisasi</li>
-      <li>Bab 4: Pahlawan</li>
-    </ul>
-  </aside>
+    // Subbab yang sedang aktif
+    var subbabAktif = '1-1';
 
-  <!-- KONTEN -->
-  <main style="flex:1;">
-    <h3>Ringkasan Bab 1</h3>
-    <p>
-      Muhammadiyah didirikan oleh KH Ahmad Dahlan pada 1912 di Yogyakarta...
-    </p>
+    // Urutan subbab untuk navigasi prev/next
+    var urutanSubbab = ['1-1','1-2','1-3','2-1','2-2','2-3','2-4','2-5','3-1','3-2','4-1','4-2'];
 
-    <img src="https://i.ibb.co.com/hJt7NH4F/images.webp"
-         alt="Ilustrasi K.H. Ahmad Dahlan"
-         style="width:100%; max-height:300px; object-fit:cover;">
+    // ============================================================
+    // Fungsi tampilKonten — menampilkan materi sesuai subbab
+    // ============================================================
+    function tampilKonten(kode) {
+      var data = dataKonten[kode];
+      if (!data) return;
 
-    <h4>Game</h4>
-    <a href="https://gemini.google.com/share/57fc1efc8ed1" target="_blank">Mainkan Game</a>
+      subbabAktif = kode;
 
-    <h4>Quiz</h4>
-    <a href="https://forms.gle/HmEDWujGZS2pMrGy7" target="_blank">Kerjakan Quiz</a>
+      // Update teks konten
+      document.getElementById('breadcrumbBab').textContent    = data.bab;
+      document.getElementById('breadcrumbSubbab').textContent = data.subbab;
+      document.getElementById('kontenJudul').textContent      = data.judul;
+      document.getElementById('kontenTeks').innerHTML = '<p>' + data.teks + '</p>';
 
-    <h4>Embed</h4>
-    <iframe src="" width="100%" height="200"></iframe>
+      // Update link game & kuis
+      document.getElementById('linkGame').href = data.game;
+      document.getElementById('linkKuis').href = data.kuis;
+      document.getElementById('iframeEmbed').src = data.game;
 
-  </main>
+      // Update active link di sidebar
+      var allLinks = document.querySelectorAll('.subbab-list li a');
+      allLinks.forEach(function(a) { a.classList.remove('active-subbab'); });
+      var activeLink = document.querySelector('[onclick="tampilKonten(\'' + kode + '\'); return false;"]');
+      if (activeLink) activeLink.classList.add('active-subbab');
 
-</div>
+      // Scroll ke atas area konten (khusus mobile)
+      document.getElementById('kontenArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ============================================================
+    // Fungsi toggleBab — buka/tutup daftar subbab
+    // ============================================================
+    function toggleBab(btn) {
+      var subbabList = btn.nextElementSibling;
+
+      // Toggle class open
+      btn.classList.toggle('open');
+      subbabList.classList.toggle('open');
+    }
+
+    // ============================================================
+    // Fungsi navigasiBab — tombol prev/next
+    // ============================================================
+    function navigasiBab(arah) {
+      var indexSekarang = urutanSubbab.indexOf(subbabAktif);
+      var indexBaru;
+
+      if (arah === 'next') {
+        indexBaru = indexSekarang + 1;
+      } else {
+        indexBaru = indexSekarang - 1;
+      }
+
+      // Pastikan tidak keluar dari range
+      if (indexBaru >= 0 && indexBaru < urutanSubbab.length) {
+        tampilKonten(urutanSubbab[indexBaru]);
+      }
+    }
+
+    // ============================================================
+    // Toggle sidebar di mobile
+    // ============================================================
+    var sidebarToggle = document.getElementById('sidebarToggle');
+    var sidebar       = document.getElementById('sidebar');
+
+    if (sidebarToggle) {
+      sidebarToggle.addEventListener('click', function () {
+        sidebar.classList.toggle('sidebar-open');
+        sidebarToggle.textContent = sidebar.classList.contains('sidebar-open')
+          ? '✕ Tutup Menu'
+          : '☰ Daftar Materi';
+      });
+    }
+  </script>
 
 </body>
 </html>
